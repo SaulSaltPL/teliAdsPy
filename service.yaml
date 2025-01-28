@@ -1,0 +1,21 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: teliads-app
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/zeta-environs-448616-m0/teliads-app:latest
+          ports:
+            - containerPort: 8080
+          startupProbe:
+            tcpSocket:
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 500
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
